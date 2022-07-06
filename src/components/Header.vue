@@ -13,7 +13,7 @@
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>個人信息</el-dropdown-item>
-            <el-dropdown-item>登出</el-dropdown-item>
+            <el-dropdown-item @click="logout">登出</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -27,6 +27,9 @@ export default {
   name: "Header",
   components: {
     ArrowDown,
+  },
+  methods:{
+
   }
 }
 </script>

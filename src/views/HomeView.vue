@@ -23,15 +23,9 @@
 <script>
 import Aside from "@/components/Aside";
 import Header from "@/components/Header";
-import Page2_1 from "@/components/Pages/Page2_1";
-import Page2_2 from "@/components/Pages/Page2_1";
-import Page3_1 from "@/components/Pages/Page2_1";
 export default {
   name: 'HomeView',
   components: {
-    Page2_1,
-    Page2_2,
-    Page3_1,
     Aside,
     Header
   }

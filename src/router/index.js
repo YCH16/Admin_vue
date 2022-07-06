@@ -9,10 +9,14 @@ const routes = [
     children:[
       {path:'/Welcome',component:()=>import('@/components/Pages/Welcome')},
       {path:'/Page2_1',component:()=>import('@/components/Pages/Page2_1')},
-      {path:'/Page2_2',component:()=>import('@/components/Pages/Page2_2')},
       {path:'/Page3_1',component:()=>import('@/components/Pages/Page3_1')},
-      {path:'/Page3_2',component:()=>import('@/components/Pages/Page3_2')},
-
+      {path:'/Page4_1',component:()=>import('@/components/Pages/Page4_1')},
+      {path:'/Page4_2',component:()=>import('@/components/Pages/Page4_2')},
+      {path:'/Page4_3',component:()=>import('@/components/Pages/Page4_3')},
+      {path:'/Page4_4',component:()=>import('@/components/Pages/Page4_4')},
+      {path:'/Page4_5',component:()=>import('@/components/Pages/Page4_5')},
+      {path:'/Page5_1',component:()=>import('@/components/Pages/Page5_1')},
+      {path:'/Page6',component:()=>import('@/components/Pages/Page6')},
     ]
   },
   {path:'/',redirect:"/Login"},

@@ -6,6 +6,10 @@ import './assets/CSS/global.css'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import axios from "axios";
+//配置請求的根路徑
+//axios.defaults.baseURL='http://127.0.0.1:8888/api/private/v1/'
+//Vue.property.$http=axios
 
 const app =createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {

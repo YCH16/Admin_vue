@@ -34,8 +34,8 @@ export default {
     //登入表單的數據對象
     return{
       loginFrom:{
-        username:'mi',
-        password:'123'
+        username:'',
+        password:''
       },
       //表單的驗證規則對象
       loginFromRules: {
@@ -57,7 +57,10 @@ export default {
       this.$refs.loginFromRef.validate((valid)=>{
         console.log(valid);
         if(!valid)return;
-
+       //const result = this.$http.post('login',this.loginFrom);
+       //console.log(result);
+        this.$message.success("login success")
+        this.$router.push('/home');
       })
     }
   }

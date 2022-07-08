@@ -1,6 +1,9 @@
 <template>
-  <div style="height:50px;display:flex" class="header_div">
-    <div style="width:200px;padding-left:30px;font-weight: bold;color:#ddd">考試系統管理</div>
+  <div style="height:50px;display:flex" class="header_div" >
+    <img src="../../src/assets/xmu_logo.jpeg" height="40">
+    <div style="width:200px;padding-left:10px;font-weight: bold;color:#ddd">
+      考試后台管理系統
+    </div>
     <div style="flex:1"></div>
     <div style="width:100px">
       <el-dropdown>
@@ -12,7 +15,7 @@
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>個人信息</el-dropdown-item>
+            <el-dropdown-item @click="userInfo">账户信息</el-dropdown-item>
             <el-dropdown-item @click="logout">登出</el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -29,7 +32,12 @@ export default {
     ArrowDown,
   },
   methods:{
+    userInfo(){
+      this.$router.push('/home');
+    },
+    logout(){
 
+    }
   }
 }
 </script>

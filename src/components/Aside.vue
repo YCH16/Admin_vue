@@ -4,7 +4,7 @@
       <el-col :span="12">
 
         <el-menu
-            style="width:200px;min-height: calc(100vh - 50px);height:auto"
+            style="width:200px;min-height: calc(100% - 50px);height:auto"
             default-active="2"
             class="el-menu-vertical-demo"
             active-text-color="#ffd04b"
@@ -19,20 +19,13 @@
             <span>主页</span>
           </el-menu-item>
 
-          <el-sub-menu index="Page2">
-            <template #title>
-              <el-icon><Avatar /></el-icon>
-              <span>教师信息管理</span>
-            </template>
-            <el-menu-item index="Page2_1">教师信息修改</el-menu-item>
-          </el-sub-menu>
-
           <el-sub-menu index="Page3">
             <template #title>
               <el-icon><User /></el-icon>
-              <span>考生信息管理</span>
+              <span>学生信息管理</span>
             </template>
-            <el-menu-item index="Page3_1">考生信息</el-menu-item>
+            <el-menu-item index="Page3_1">学生信息</el-menu-item>
+            <el-menu-item index="Page3_2">学生试卷查看</el-menu-item>
           </el-sub-menu>
 
           <el-sub-menu index="Page4">
@@ -49,16 +42,12 @@
 
           <el-sub-menu index="Page5">
             <template #title>
-              <el-icon><Checked /></el-icon>
-              <span>试卷管理</span>
+              <el-icon><Document /></el-icon>
+              <span>专业信息管理</span>
             </template>
-            <el-menu-item index="Page5_1">主观题打分</el-menu-item>
+            <el-menu-item index="Page5_1">专业信息</el-menu-item>
           </el-sub-menu>
 
-          <el-menu-item index="Page6">
-            <el-icon><Management /></el-icon>
-            <span>考生成绩管理</span>
-          </el-menu-item>
         </el-menu>
       </el-col>
     </el-row>

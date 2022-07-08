@@ -8,7 +8,7 @@
     </el-card>
   <el-card class="box-card2" style="width: auto;">
   <h2 align="center">添加单选题</h2>
-  <h4>科目:</h4>
+  <h4>专业方向:</h4>
   <el-select v-model="value" class="m-2" placeholder="Select">
     <el-option
         v-for="item in options"

@@ -11,7 +11,7 @@
   <el-card class="box-card1" style="width: auto;margin-bottom: 20px">
   <h2 align="center">添加简答题</h2>
 
-  <h4>科目:</h4>
+  <h4>专业方向:</h4>
   <el-select v-model="value" class="m-2" placeholder="Select">
     <el-option
         v-for="item in options"

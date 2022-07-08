@@ -11,7 +11,12 @@
     <h2 align="center">已提交试题</h2>
     <el-row :gutter="20">
       <el-col :span="9" >
-        <el-form-item label="学科:" >
+        <el-form-item label="专业:" >
+          <el-select style="width: 330px;height:30px" ></el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="9" >
+        <el-form-item label="问题类型:" >
           <el-select style="width: 330px;height:30px" ></el-select>
         </el-form-item>
       </el-col>
@@ -21,16 +26,19 @@
     </el-row>
 
     <el-table :data="tableData" style="width: 100%" stripe>
-      <el-table-column prop="eid" label="试题ID" width="150"></el-table-column>
-      <el-table-column prop="mno" label="专业" width="150"></el-table-column>
-      <el-table-column prop="cname" label="课程" width="150"></el-table-column>
-      <el-table-column prop="tno" label="问题类型" width="150"></el-table-column>
+      <el-table-column type="selection" width="100" />
+      <el-table-column prop="eid" label="试题ID" width="170"></el-table-column>
+      <el-table-column prop="mno" label="专业" width="200"></el-table-column>
+      <el-table-column prop="tno" label="问题类型" width="200"></el-table-column>
       <el-table-column label="操作" style="display: flex" width:auto>
         <el-button type="info" size="small" @click="Browser">预览题目</el-button>
         <el-button type="primary" size="small" @click="CheckTheTest">编辑题目</el-button>
         <el-button type="danger" size="small" @click="DeleteTheTest">删除题目</el-button>
       </el-table-column>
     </el-table>
+    <div style="display: flex">
+      <el-button style="width: 100%" >删除选中</el-button>
+    </div>
   </el-card>
 
   <div class="demo-pagination-block">

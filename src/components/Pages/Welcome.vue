@@ -1,61 +1,27 @@
 <template>
   <el-row :gutter="20">
-    <el-col :span="6">
-      <el-card class="box-card1" style="margin-bottom:20px;height: 100px">
-        <div style="display: flex">
-          <el-icon style="font-size: 30px;margin-top:15px"><School style="color:seagreen;"/></el-icon>
-          <div style="display: flex">
-          <h3 style="margin-left: 10px">任教班级:</h3>
-          <h3 style="margin-left: 10px;text-align: center">軟工2班</h3>
-          </div>
-        </div>
-      </el-card>
-    </el-col>
-    <el-col :span="6">
-
-      <el-card class="box-card1" style="margin-bottom:20px;height: 100px">
-        <div style="display: flex">
-        <el-icon style="font-size: 30px;margin-top:15px"><UserFilled style="color:cornflowerblue;"/></el-icon>
-          <h3 style="margin-left: 10px;">班级人数:</h3><h3 style="margin-left: 10px;text-align: center">20</h3>
-        </div>
-      </el-card>
-    </el-col>
-    <el-col :span="6">
-      <el-card class="box-card1" style="margin-bottom:20px;height: 100px">
-        <div style="display: flex">
-        <el-icon style="font-size: 30px;margin-top:15px"><EditPen style="color:Red;"/></el-icon>
-        <h3 style="margin-left: 10px">待批改题量:</h3> <h3 style="margin-left: 10px;text-align: center">20</h3>
-        </div>
-      </el-card>
-    </el-col>
-    <el-col :span="6">
-
-      <el-card class="box-card1" style="margin-bottom:20px;height: 100px">
-        <div style="display: flex">
-        <el-icon style="font-size: 30px;margin-top:15px"><List style="color:dodgerblue;"/></el-icon>
-        <h3 style="margin-left: 10px">题目总数:</h3><h3 style="margin-left: 10px;text-align: center">20</h3>
-      </div>
-      </el-card>
-    </el-col>
-  </el-row>
-  <el-row :gutter="20">
     <el-col :span="24">
-      <el-card class="box-card1" style="margin-bottom:20px;height: 350px;">
-        <h2>学生成绩分布
-        </h2>
-        <el-row :gutter="20">
-        <el-col :span="7" >
-          <el-form-item label="学科:" >
-            <el-select style="width: 330px;height:30px" ></el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="7" >
-          <el-form-item label="班级:">
-            <el-select style="width: 330px;height:30px" ></el-select>
-          </el-form-item>
-        </el-col>
-        </el-row>
-      </el-card>
+      <el-card class="box-card2" style="margin-bottom:20px;height: auto;">
+        <h2>欢迎登入</h2>
+        <div>
+          <el-form>
+            <el-form-item label="身分:" style="width: 300px" :model="UserInfoForm">
+              <el-input disabled placeholder="管理员" />
+            </el-form-item>
+            <el-form-item label="账户:" >
+              <el-input v-model="UserInfoForm.username"/>
+            </el-form-item>
+            <el-form-item label="密码:" >
+              <el-input v-model="UserInfoForm.password"/>
+            </el-form-item>
+            <el-form-item style="display: flex ">
+              <span style="flex: 1;"></span>
+              <el-button type="danger" @click="modify()">修改</el-button>
+              <el-button type="success" @click="save()">保存</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+        </el-card>
     </el-col>
   </el-row>
 </template>
@@ -63,7 +29,23 @@
 <script>
 
 export default {
-  name: "Welcome"
+  name: "Welcome",
+  data(){
+    return{
+      UserInfoForm:{
+        username:'admin',
+        password:'93248023984023'
+      },
+    }
+  },
+  methods:{
+    modify(){
+
+    },
+    save(){
+
+    }
+  }
 }
 </script>
 

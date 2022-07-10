@@ -103,9 +103,14 @@ export default {
 
       tableData:[
         {
-
-        },
-        {
+          Sno:1232132,
+          name:'張三',
+          sex:'男',
+          phone:'918273981',
+          mno:'24324',
+          class:3,
+          testNo:'234',
+          time:'2022/4/6',
 
         }
       ]

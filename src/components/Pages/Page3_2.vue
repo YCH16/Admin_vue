@@ -9,42 +9,41 @@
 
   <el-card class="box-card2" style="width: auto">
     <h2>学生试卷</h2>
-
+<el-form :model="searchform">
     <el-row :gutter="20">
       <el-col :span="7" >
         <el-form-item label="学号:" >
-          <el-input v-model="input" placeholder="Please input" style="width: 330px;height:30px"/>
+          <el-input v-model="searchform.Sno" placeholder="输入查询学号" style="width: 330px;height:30px"/>
         </el-form-item>
       </el-col>
       <el-col :span="6" >
         <el-form-item label="班级:">
-          <el-select style="width: 330px;height:30px" ></el-select>
+          <el-select v-model="searchform.class" style="width: 330px;height:30px"  placeholder="选择班级"></el-select>
         </el-form-item>
       </el-col>
       <el-col :span="6" >
         <el-form-item label="姓名:">
-          <el-input style="width: 330px;height:30px" placeholder="Please input" ></el-input>
+          <el-input v-model="searchform.name" style="width: 330px;height:30px" placeholder="输入查询姓名" ></el-input>
         </el-form-item>
       </el-col>
     </el-row>
 
-
-
     <el-row :gutter="20">
       <el-col :span="7" >
-        <el-form-item label="专业编号:" >
-          <el-input v-model="input" placeholder="Please input" style="width: 330px;height:30px"/>
+        <el-form-item label="试卷编号:" >
+          <el-input v-model="searchform.testNo" placeholder="输入查询试卷编号" style="width: 330px;height:30px"/>
         </el-form-item>
       </el-col>
       <el-col :span="6" >
         <el-form-item label="专业:">
-          <el-select style="width: 330px;height:30px" ></el-select>
+          <el-select v-model="searchform.mname" style="width: 330px;height:30px" placeholder="输入查询专业" ></el-select>
         </el-form-item>
       </el-col>
       <el-col :span="4">
         <el-button type="primary">查询 <el-icon style="margin:5px"><Search /></el-icon></el-button>
       </el-col>
     </el-row>
+</el-form>
 
     <el-table
         ref="multipleTableRef"
@@ -100,7 +99,8 @@ export default {
       currentPage:1,
       pageSize:10,
       Total:10,
-
+      searchform:{},
+      form:{},
       tableData:[
         {
           Sno:1232132,
@@ -124,6 +124,9 @@ export default {
 
     },
     handleCurrentChange(){
+
+    },
+    handleSelectionChange(){
 
     }
   }

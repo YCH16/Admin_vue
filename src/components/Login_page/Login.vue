@@ -53,14 +53,22 @@ export default {
   },
   methods:{
     login(){
-      //先獲得表單的引用對象,拿引用對象獲得繳驗函數
+      //先獲得表單的引用對象,拿引用對象獲得校驗函數
       this.$refs.loginFromRef.validate((valid)=>{
         console.log(valid);
         if(!valid)return;
-       //const result = this.$http.post('login',this.loginFrom);
-       //console.log(result);
-        this.$message.success("login success")
-        this.$router.push('/home');
+        else{
+          //填上後端端口地址,向後端發起請求
+          //this.axios.post('',this.loginFrom).then((res)=>{
+            //let data=res.data;
+            //if(data.success){//發送成功了
+              //this.loginFrom={};//清空form
+
+           // }
+          //})
+          this.$message.success("login success")
+          this.$router.push('/home');
+        }
       })
     }
   }

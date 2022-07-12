@@ -9,21 +9,23 @@
 
     <el-card class="box-card2" style="width: auto">
       <h2 align="center">专业列表</h2>
+      <el-form :model="search">
       <el-row :gutter="20">
         <el-col :span="7" >
           <el-form-item label="专业编号:" >
-            <el-input v-model="input" placeholder="Please input" style="width: 330px;height:30px"/>
+            <el-input v-model="search.mno" placeholder="Please input" style="width: 330px;height:30px"/>
           </el-form-item>
         </el-col>
         <el-col :span="6" >
           <el-form-item label="专业:">
-            <el-select style="width: 330px;height:30px" ></el-select>
+            <el-select v-model="search.mname" style="width: 330px;height:30px" ></el-select>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-button type="primary">查询 <el-icon style="margin:5px"><Search /></el-icon></el-button>
         </el-col>
       </el-row>
+      </el-form>
 
       <el-table
           ref="multipleTableRef"
@@ -32,13 +34,14 @@
           @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="120" />
-        <el-table-column label="专业编号" width="400"/>
-        <el-table-column label="专业名" width="400"/>
+        <el-table-column label="专业编号" width="300"/>
+        <el-table-column label="专业名" width="300"/>
+        <el-table-column label="班级" width="200"/>
       </el-table>
 
       <div style="display: flex">
         <el-button  style="width: 100%" >删除选中</el-button>
-        <el-button  style="width: 100%" >添加专业方向</el-button>
+        <el-button  style="width: 100%" @click="onAddItem">添加专业方向</el-button>
       </div>
 
     </el-card>
@@ -56,25 +59,52 @@
           @current-change="handleCurrentChange"
       />
     </div>
+
+  <el-dialog v-model="dialogFormVisible" title="添加专业方向">
+    <el-form :model="form">
+
+      <el-form-item label="专业:" :label-width="formLabelWidth">
+        <el-input v-model="form.mno" autocomplete="off" />
+      </el-form-item>
+
+      <el-form-item label="班级:" :label-width="formLabelWidth">
+        <el-input v-model="form.name" autocomplete="off" />
+      </el-form-item>
+
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="save">添加</el-button>
+      </span>
+    </template>
+  </el-dialog>
+
 </template>
 <script>
 export default {
   name: "Page5_1",
   data(){
     return{
+      dialogFormVisible:false,
       currentPage:1,
       pageSize:10,
       Total:10,
-
-      tableData:[
-        {
-
-        }
-      ]
+      form:{},
+      search:{},
+      tableData:[]
     }
   },
   methods:{
-    CheckTheTest(){
+    onAddItem(){
+      this.dialogFormVisible=true
+      this.form={}
+    },
+    save(){
+      this.dialogFormVisible=false
+
+    },
+    handleSelectionChange(){
 
     },
     handleSizeChange(){

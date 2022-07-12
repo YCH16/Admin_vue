@@ -9,14 +9,15 @@
 
   <el-card class="box-card2" style="margin-bottom:20px ">
     <h2 align="center">已提交试题</h2>
+    <el-form :model="search">
     <el-row :gutter="20">
       <el-col :span="9" >
-        <el-form-item label="专业:" >
+        <el-form-item label="专业:"  v-model="search.mname">
           <el-select style="width: 330px;height:30px" ></el-select>
         </el-form-item>
       </el-col>
       <el-col :span="9" >
-        <el-form-item label="问题类型:" >
+        <el-form-item label="问题类型:" v-model="search.Qtype" >
           <el-select style="width: 330px;height:30px" ></el-select>
         </el-form-item>
       </el-col>
@@ -24,6 +25,7 @@
         <el-button type="primary">查询 <el-icon style="margin:5px"><Search /></el-icon></el-button>
       </el-col>
     </el-row>
+    </el-form>
 
     <el-table :data="tableData" style="width: 100%" stripe>
       <el-table-column type="selection" width="100" />
@@ -66,7 +68,7 @@ export default {
       currentPage:1,
       pageSize:10,
       Total:10,
-
+      search:{},
       tableData:[
         {
           eid:'1',

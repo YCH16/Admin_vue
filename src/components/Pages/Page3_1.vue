@@ -14,26 +14,26 @@
       <el-row :gutter="20">
         <el-col :span="6" >
          <el-form-item label="学号:" >
-            <el-input v-model="searchform.sno" placeholder="Please input" style="width: 330px;height:30px"/>
+            <el-input v-model="searchform.sno" placeholder="输入要查询的学号" style="width: 330px;height:30px"/>
          </el-form-item>
         </el-col>
       <el-col :span="5" >
         <el-form-item label="姓名:">
-          <el-input v-model="searchform.name" style="width: 330px;height:30px" placeholder="Please input" ></el-input>
+          <el-input v-model="searchform.name" style="width: 330px;height:30px" placeholder="输入查询姓名" ></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="5" >
         <el-form-item label="班级:">
-          <el-select v-model="searchform.class" style="width: 330px;height:30px" ></el-select>
+          <el-select v-model="searchform.class" style="width: 330px;height:30px" placeholder="选择班级" ></el-select>
         </el-form-item>
       </el-col>
       <el-col :span="5" >
         <el-form-item label="专业:">
-          <el-select  v-model="searchform.mno" style="width: 330px;height:30px" ></el-select>
+          <el-select  v-model="searchform.mno" style="width: 330px;height:30px" placeholder="选择专业" ></el-select>
         </el-form-item>
       </el-col>
       <el-col :span="3">
-        <el-button type="primary" @click="search">查询<el-icon style="margin:3px"><Search /></el-icon></el-button>
+        <el-button type="primary" @click="load">查询<el-icon style="margin:3px"><Search /></el-icon></el-button>
       </el-col>
     </el-row>
 
@@ -61,9 +61,9 @@
     <el-table-column prop="password" label="密码" width="120" />
     <el-table-column fixed="right" label="操作" width="150">
       <template #default="scope" style="display: flex">
-        <el-popconfirm title="确认删除吗?">
+        <el-popconfirm title="确认删除吗?" @confirm="deleteRow(scope.row.Sno)">
           <template #reference>
-            <el-button type="danger" size="small" @click.prevent="deleteRow(scope.$index)">刪除</el-button>
+            <el-button type="danger" size="small">刪除</el-button>
           </template>
         </el-popconfirm>
         <el-button type="primary" size="small">修改</el-button>
@@ -81,7 +81,7 @@
         :disabled="disabled"
         :background="background"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="Total"
+        :total="total"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
     />
@@ -138,32 +138,23 @@
 </template>
 
 <script>
+import request from "../../../utils/request";
+
 export default {
   name: "Page3_1",
   data(){
     return{
       dialogFormVisible:false,
-      Total:100,
-      form:{
+      total:0,
+      currentPage:1,
+      pageSize:10,
+      form:{},
+      searchform:{},
 
-
-      },
-      searchform:{
-
-      },
       tableData:[
-        {
+        {//這裡之後可以刪掉
           Sno:'22920202205201',
           name:'Lily',
-          sex:'女',
-          class:'2-1',
-          phone:'1894389234',
-          password:'1890232',
-          mno:'軟件工程'
-        },
-        {
-          Sno:'22920202205202',
-          name:'Sandy',
           sex:'女',
           class:'2-1',
           phone:'1894389234',
@@ -189,14 +180,41 @@ export default {
     },
     save(){
       this.dialogFormVisible = false
+      request.post("",this.form).then(res=>{
+        console.log(res);//打印返回結果
+      });//填接口
     },
-    deleteRow(){
 
+    deleteRow(id){
+      console.log(id);
     },
-    search(){
 
+    created(){
+      this.load();
+    },
+    load(){
+      request.get('',{
+        params:{
+        pageNum:this.currentPage,
+        pageSize:this.pageSize,
+        search:this.searchform
+        }
+      }).then((res)=>{
+        console.log(res);
+        this.tableData=res.data.records;
+        this.total=res.data.total;
+      })
+    },
+    handleSizeChange(pageSize){
+      this.pageSize=pageSize;
+      this.load();
+    },
+    handleCurrentChange(pageNum){
+      this.currentPage=PageNum
+      this.load();
     }
   },
+
 
 }
 </script>

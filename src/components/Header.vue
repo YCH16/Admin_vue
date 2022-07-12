@@ -1,6 +1,6 @@
 <template>
   <div style="height:50px;display:flex" class="header_div" >
-    <img src="../../src/assets/xmu_logo.jpeg" height="40">
+    <img src="../../src/assets/XMULogo.png" height="40">
     <div style="width:200px;padding-left:10px;font-weight: bold;color:#ddd">
       考試后台管理系統
     </div>

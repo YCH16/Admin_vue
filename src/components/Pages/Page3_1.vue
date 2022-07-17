@@ -14,24 +14,36 @@
       <el-row :gutter="20">
         <el-col :span="6" >
          <el-form-item label="学号:" >
-            <el-input v-model="searchform.sno" placeholder="输入要查询的学号" style="width: 330px;height:30px"/>
+            <el-input v-model="searchform.username" placeholder="输入要查询的学号" style="width: 330px;height:30px"/>
          </el-form-item>
         </el-col>
       <el-col :span="5" >
         <el-form-item label="姓名:">
-          <el-input v-model="searchform.name" style="width: 330px;height:30px" placeholder="输入查询姓名" ></el-input>
+          <el-input v-model="searchform.truename" style="width: 330px;height:30px" placeholder="输入查询姓名" ></el-input>
+        </el-form-item>
+      </el-col>
+        <el-col :span="5" >
+        <el-form-item label="专业:">
+          <el-select  v-model="searchform.coll" style="width: 330px;height:30px" placeholder="选择专业" >
+          <el-option
+              v-for="item in allColl"
+              :key="item.coll"
+              :label="item.coll"
+              :value="item.coll"
+          />
+            <!--v-for 定义item，在allColl中获取專業的id与coll
+            :key="item.coll"   使用变量key遍历
+            :label="item.coll" 在前端option框中展示的信息
+            :value="item.coll" 向后台传的数据-->
+          </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="5" >
         <el-form-item label="班级:">
-          <el-select v-model="searchform.class" style="width: 330px;height:30px" placeholder="选择班级" ></el-select>
+          <el-input v-model="searchform.classname" style="width: 330px;height:30px" placeholder="输入查询班级" ></el-input>
         </el-form-item>
       </el-col>
-      <el-col :span="5" >
-        <el-form-item label="专业:">
-          <el-select  v-model="searchform.mno" style="width: 330px;height:30px" placeholder="选择专业" ></el-select>
-        </el-form-item>
-      </el-col>
+
       <el-col :span="3">
         <el-button type="primary" @click="load">查询<el-icon style="margin:3px"><Search /></el-icon></el-button>
       </el-col>
@@ -40,7 +52,7 @@
     </el-form>
 
     <div style="display: flex">
-      <el-button  style="width: 100%" >删除选中</el-button>
+      <el-button  style="width: 100%" @click="deleteRows" >删除选中</el-button>
       <el-button  style="width: 100%" >批量增加</el-button>
     </div>
 
@@ -52,21 +64,21 @@
             stripe
             @selection-change="handleSelectionChange">
     <el-table-column type="selection" width="55"  />
-    <el-table-column fixed prop="Sno" label="学号" width="150" sortable/>
-    <el-table-column prop="name" label="姓名" width="120" />
-    <el-table-column prop="sex" label="性别" width="120" />
-    <el-table-column prop="phone" label="电话" width="120" />
-    <el-table-column prop="mno" label="专业" width="120" />
-    <el-table-column prop="class" label="班级" width="120" />
+    <el-table-column fixed prop="username" label="学号" width="150" sortable/>
+    <el-table-column prop="truename" label="姓名" width="120" />
+    <el-table-column prop="gender" label="性别" width="120" />
+    <el-table-column prop="tele" label="电话" width="120" />
+    <el-table-column prop="coll" label="专业" width="120" />
+    <el-table-column prop="classname" label="班级" width="120" />
     <el-table-column prop="password" label="密码" width="120" />
     <el-table-column fixed="right" label="操作" width="150">
       <template #default="scope" style="display: flex">
-        <el-popconfirm title="确认删除吗?" @confirm="deleteRow(scope.row.Sno)">
+        <el-popconfirm title="确认删除吗?" @confirm="deleteRow(scope.row.username)">
           <template #reference>
             <el-button type="danger" size="small">刪除</el-button>
           </template>
         </el-popconfirm>
-        <el-button type="primary" size="small">修改</el-button>
+        <el-button type="primary" size="small" @click="modify(scope.row)">修改</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -76,7 +88,7 @@
     <el-pagination
         v-model:currentPage="currentPage"
         v-model:page-size="pageSize"
-        :page-sizes="[10, 20, 30, 40, 50]"
+        :page-sizes="[5, 10, 15, 20, 25]"
         :small="small"
         :disabled="disabled"
         :background="background"
@@ -88,43 +100,46 @@
   </div>
 
   <el-dialog v-model="dialogFormVisible" title="添加学生信息">
-    <el-form :model="form">
-      <el-form-item label="学号:" :label-width="formLabelWidth">
-        <el-input v-model="form.Sno" autocomplete="off" />
+    <el-form :model="form" :rules="FromRules" ref="FromRef">
+      <el-form-item label="学号:" :label-width="formLabelWidth" prop="username">
+        <el-input v-model="form.username" autocomplete="off" clearable/>
       </el-form-item>
-      <el-form-item label="姓名:" :label-width="formLabelWidth">
-        <el-input v-model="form.name" autocomplete="off" />
+      <el-form-item label="姓名:" :label-width="formLabelWidth" prop="truename">
+        <el-input v-model="form.truename" autocomplete="off" clearable/>
       </el-form-item>
-      <el-form-item label="性别:" :label-width="formLabelWidth">
-        <el-radio-group v-model="form.sex" class="ml-4">
-          <el-radio label="1" size="large">男</el-radio>
-          <el-radio label="2" size="large">女</el-radio>
+      <el-form-item label="性别:" :label-width="formLabelWidth" prop="gender">
+        <el-radio-group v-model="form.gender" class="ml-4">
+          <el-radio label="男" size="large">男</el-radio>
+          <el-radio label="女" size="large">女</el-radio>
         </el-radio-group>
       </el-form-item>
 
-      <el-form-item label="电话:" :label-width="formLabelWidth">
-        <el-input v-model="form.phone" autocomplete="off" />
+      <el-form-item label="电话:" :label-width="formLabelWidth" prop="tele">
+        <el-input v-model="form.tele" autocomplete="off" clearable/>
       </el-form-item>
 
 
-      <el-form-item label="专业" :label-width="formLabelWidth">
-        <el-select v-model="form.mno" placeholder="Please select a zone">
-          <el-option label="Zone No.1" value="shanghai" />
-          <el-option label="Zone No.2" value="beijing" />
+      <el-form-item label="专业" :label-width="formLabelWidth" prop="coll">
+        <el-select v-model="form.coll" placeholder="Please select a zone" clearable>
+          <el-option
+              v-for="item in allColl"
+              :key="item.coll"
+              :label="item.coll"
+              :value="item.coll"
+          />
         </el-select>
       </el-form-item>
 
-        <el-form-item label="班级" :label-width="formLabelWidth">
-        <el-select v-model="form.class" placeholder="Please select a zone">
-          <el-option label="Zone No.1" value="shanghai" />
-          <el-option label="Zone No.2" value="beijing" />
+        <el-form-item label="班级" :label-width="formLabelWidth" prop="classname">
+        <el-select v-model="form.classname" placeholder="Please select a zone" clearable>
+          <el-option label="软工1班" value="软工1班" />
+          <el-option label="数媒1班" value="数媒1班" />
         </el-select>
       </el-form-item>
 
-      <el-form-item label="密码:" :label-width="formLabelWidth">
-        <el-input v-model="form.password" autocomplete="off" />
+      <el-form-item label="密码:" :label-width="formLabelWidth" prop="password">
+        <el-input v-model="form.password" autocomplete="off" clearable/>
       </el-form-item>
-
 
     </el-form>
     <template #footer>
@@ -135,69 +150,178 @@
     </template>
   </el-dialog>
 
+  <el-dialog v-model="dialogFormVisible_modify" title="修改学生信息">
+    <el-form :model="form_modify" :rules="form_modify_rules">
+      <el-form-item label="学号:" :label-width="formLabelWidth" prop="username">
+        <el-input v-model="form_modify.username" autocomplete="off" disabled/>
+      </el-form-item>
+      <el-form-item label="姓名:" :label-width="formLabelWidth" prop="truename">
+        <el-input v-model="form_modify.truename" autocomplete="off" />
+      </el-form-item>
+      <el-form-item label="性别:" :label-width="formLabelWidth" prop="gender">
+        <el-radio-group v-model="form_modify.gender" class="ml-4">
+          <el-radio label="男" size="large">男</el-radio>
+          <el-radio label="女" size="large">女</el-radio>
+        </el-radio-group>
+      </el-form-item>
+
+      <el-form-item label="电话:" :label-width="formLabelWidth">
+        <el-input v-model="form_modify.tele" autocomplete="off"/>
+      </el-form-item>
+
+
+      <el-form-item label="专业" :label-width="formLabelWidth">
+        <el-select v-model="form_modify.coll" placeholder="Please select a zone">
+          <el-option
+              v-for="item in allColl"
+              :key="item.coll"
+              :label="item.coll"
+              :value="item.coll"
+          />
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="班级" :label-width="formLabelWidth">
+        <el-select v-model="form_modify.classname" placeholder="Please select a zone">
+          <el-option label="软工1班" value="软工1班" />
+          <el-option label="数媒1班" value="数媒1班" />
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="密码:" :label-width="formLabelWidth">
+        <el-input v-model="form_modify.password" autocomplete="off" />
+      </el-form-item>
+
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogFormVisible_modify = false">取消</el-button>
+        <el-button type="primary" @click="update">修改</el-button>
+      </span>
+    </template>
+  </el-dialog>
+
+
+
 </template>
 
 <script>
-import request from "../../../utils/request";
-
 export default {
   name: "Page3_1",
   data(){
     return{
       dialogFormVisible:false,
-      total:0,
+      dialogFormVisible_modify:false,
       currentPage:1,
       pageSize:10,
-      form:{},
-      searchform:{},
-
-      tableData:[
-        {//這裡之後可以刪掉
-          Sno:'22920202205201',
-          name:'Lily',
-          sex:'女',
-          class:'2-1',
-          phone:'1894389234',
-          password:'1890232',
-          mno:'軟件工程'
-        },
-        {
-          Sno:'22920202205203',
-          name:'Anna',
-          sex:'女',
-          class:'2-1',
-          phone:'1894389234',
-          password:'1890232',
-          mno:'軟件工程'
-        },
-      ]
+      total:0,
+      form:{
+        username:'',
+        truename:'',
+        gender:'',
+        tele:'',
+        coll:'',
+        classname:'',
+        password:''
+      },
+      form_modify:{},
+      FromRules:{
+        username: [{required: true, message: '不能为空', trigger: 'blur'}],
+        truename: [{required: true, message: '用戶名不能为空', trigger: 'blur'}],
+        tele: [{required: true, message: '不能为空', trigger: 'blur'}],
+        coll: [{required: true, message: '不能为空', trigger: 'blur'}],
+        gender: [{required: true, message: '必选', trigger: 'blur'}],
+        classname: [{required: true, message: '不能为空', trigger: 'blur'}],
+      },
+      form_modify_rules:{
+        truename: [{required: true, message: '用戶名不能为空', trigger: 'blur'}],
+      },
+      searchform:{
+        username:'',
+        truename:'',
+        coll:'',
+        classname:''
+      },
+      tableData:[],
+      multipleselection:[],
+      allColl:[{
+        coll:'',
+      }],
+      allClass:[{
+        classname:'',
+      }]
     }
   },
+  created(){
+    this.load();
+    this.loadAllcoll();
+  },
   methods:{
-    onAddItem(){
+    onAddItem(){//添加學生信息
       this.dialogFormVisible=true
       this.form={}
     },
-    save(){
-      this.dialogFormVisible = false
-      request.post("",this.form).then(res=>{
+    modify(row){
+      this.dialogFormVisible_modify=true;
+      this.form_modify.username=row.username;
+      this.form_modify.truename=row.truename;
+      this.form_modify.gender=row.gender;
+      this.form_modify.tele=row.tele;
+      this.form_modify.coll=row.coll;
+      this.form_modify.classname=row.classname;
+      this.form_modify.password=row.password;
+    },
+    save(){//向後端提交添加的學生信息數據
+      this.$refs.FromRef.validate((valid)=>{
+        console.log(valid)
+        if(!valid){this.dialogFormVisible = true;}
+        else{
+          this.axios.post("http://localhost:8081/student/save",this.form).then(res=>{
+            this.dialogFormVisible = false;
+            console.log(res);//打印返回結果
+            this.load();
+          });
+        }
+      })
+    },
+    deleteRow(username){//刪除一個
+        console.log(username);
+        this.axios.delete('http://localhost:8081/student/'+username).then(res=>{
         console.log(res);//打印返回結果
-      });//填接口
+        if(res.code==='0') this.$message({type:"error", message:"刪除失敗"})
+        else {this.$message({type:"success", message:"刪除成功"});this.load();}
+      })
     },
-
-    deleteRow(id){
-      console.log(id);
+    update(){
+      this.dialogFormVisible_modify = false
+      console.log(this.form_modify);
+      this.axios.post("http://localhost:8081/student/update",this.form_modify).then(res=>{
+        console.log(res);//打印返回結果
+        this.load();
+      });
     },
-
-    created(){
-      this.load();
+    handleSelectionChange(val){
+      console.log(val);
+      this.multipleselection=val;
+    },
+    deleteRows(){//批量刪除
+      console.log(this.multipleselection)
+      this.multipleselection.forEach(id=>{console.log(id.username);
+        this.axios.delete('http://localhost:8081/student/'+id.username).then(res=>{
+          if(res.code==='0') {this.$message({type:"error", message:"刪除失敗"});}
+          else {this.$message({type:"success", message:"刪除成功"});this.load();}
+        })
+      })
     },
     load(){
-      request.get('',{
+      this.axios.get('http://localhost:8081/student/page',{
         params:{
-        pageNum:this.currentPage,
-        pageSize:this.pageSize,
-        search:this.searchform
+          pageNum:this.currentPage,
+          pageSize:this.pageSize,
+          username:this.searchform.username,
+          truename:this.searchform.truename,
+          coll:this.searchform.coll,
+          classname:this.searchform.classname
         }
       }).then((res)=>{
         console.log(res);
@@ -205,17 +329,22 @@ export default {
         this.total=res.data.total;
       })
     },
-    handleSizeChange(pageSize){
-      this.pageSize=pageSize;
-      this.load();
+    loadAllcoll(){
+      this.axios.get('http://localhost:8081/major')
+          .then((res)=>{
+            console.log(res);
+            for(let i=0;i<res.data.length;i++){
+              this.allColl.push({coll:res.data[i].mname});
+            }
+          })
     },
-    handleCurrentChange(pageNum){
-      this.currentPage=PageNum
-      this.load();
+    handleSizeChange(){
+      this.load()
+    },
+    handleCurrentChange(){
+      this.load()
     }
   },
-
-
 }
 </script>
 

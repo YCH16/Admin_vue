@@ -27,4 +27,16 @@ const router = createRouter({
   routes
 })
 
+router.beforeEach((to,from,next)=>{
+  //to是將要訪問的路徑
+  //from代表從哪個路徑跳轉而來
+  //next是一個函數,表示放行
+  // 先獲取token
+  const tokenStr=window.sessionStorage.getItem('token');
+  if(to.path==='/Login' && !tokenStr){console.log("1");return next();}
+  else if(to.path==='/Login' && tokenStr){console.log("2");return next('/home');}
+  if(!tokenStr){console.log("3");return next('/Login');}
+  else if(to.path!=='/Login' && tokenStr){next();console.log("4");}
+})
+
 export default router

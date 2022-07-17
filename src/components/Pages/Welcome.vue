@@ -9,10 +9,10 @@
               <el-input disabled placeholder="管理员" />
             </el-form-item>
             <el-form-item label="账户:" >
-              <el-input v-model="UserInfoForm.username"/>
+              <el-input v-model="UserInfoForm.username" :disabled="disableusername"/>
             </el-form-item>
             <el-form-item label="密码:" >
-              <el-input v-model="UserInfoForm.password"/>
+              <el-input v-model="UserInfoForm.password" :disabled="disablepassword"/>
             </el-form-item>
             <el-form-item style="display: flex ">
               <span style="flex: 1;"></span>
@@ -27,23 +27,46 @@
 </template>
 
 <script>
+import request from "../../../utils/request";
+import axios from "axios";
 
 export default {
   name: "Welcome",
   data(){
     return{
+      disableusername:true,
+      disablepassword:true,
       UserInfoForm:{
-        username:'admin',
-        password:'93248023984023'
+        username:'',
+        password:''
       },
     }
   },
+  created() {
+    this.load();
+  },
   methods:{
-    modify(){
 
+    load(){
+      this.axios.get('http://localhost:8081/admin/get').then(res=>{
+        console.log(res.data);
+        this.UserInfoForm.username=res.data.username;
+        this.UserInfoForm.password=res.data.password;
+      });
+    },
+    modify(){
+      this.disablepassword=false;
     },
     save(){
-
+      this.axios.post('http://localhost:8081/admin',this.UserInfoForm).then(res=>{
+        if(res){
+          this.$message.success("修改成功");
+        }
+        else{
+          this.$message.error("修改失败");
+        }
+      })
+      this.disablepassword=true;
     }
   }
 }

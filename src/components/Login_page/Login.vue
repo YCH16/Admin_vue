@@ -1,6 +1,11 @@
 <template>
   <div class="login_container">
-    <div class="login_box">
+    <div class="login_box_left">
+      <div style="height: 40px; width:220px;border-bottom: solid;margin-top: 35%;margin-left: 20%;padding-left: 15px;color:#fff">
+      <h2 style="color:#fff;">考试后台管理系统</h2>
+    </div>
+    </div>
+    <div class="login_box_right">
       <div class="title">登錄</div>
       <div>
         <el-form label-width="0px" class="login_Form" :model="loginFrom" :rules="loginFromRules" ref="loginFromRef">
@@ -46,7 +51,7 @@ export default {
         //驗證密碼是否合法
         password: [
           {required: true, message: '密码不能为空', trigger: 'blur'},
-          {min: 6, max: 16, message: '密码应为6-16位的长度', trigger: 'blur'}
+          {min: 5, max: 16, message: '密码应为5-16位的长度', trigger: 'blur'}
         ]
       }
     }
@@ -55,19 +60,19 @@ export default {
     login(){
       //先獲得表單的引用對象,拿引用對象獲得校驗函數
       this.$refs.loginFromRef.validate((valid)=>{
-        console.log(valid);
+        //console.log(valid);
         if(!valid)return;
         else{
-          //填上後端端口地址,向後端發起請求
-          //this.axios.post('',this.loginFrom).then((res)=>{
-            //let data=res.data;
-            //if(data.success){//發送成功了
-              //this.loginFrom={};//清空form
-
-           // }
-          //})
-          this.$message.success("login success")
-          this.$router.push('/home');
+          this.axios.post('http://localhost:8081/admin/login',this.loginFrom).then(res=>{
+            if(res.data.code==='200'){
+              this.$message.success("login success")
+              window.sessionStorage.setItem('token',res.data.data.token);
+              this.$router.push('/home');
+            }
+            else{
+              this.$message.error("用户名或密码错误!!");
+            }
+          });
         }
       })
     }
@@ -76,21 +81,40 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.login_container{
-  background-color:darkseagreen;
-  height:100vh
-}
-.login_box{
+.login_box_right{
   width:420px;
   height:450px;
   background-color: #fff;
   border-radius: 3px;
   position: absolute;
   top:50%;
-  left: 50%;
+  left: 70%;
   transform: translate(-50%,-50%);
   box-shadow: 0 0 20px gray;
+  flex: 1;
 }
+.login_box_left{
+  width:500px;
+  height:450px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  position: absolute;
+  top:50%;
+  left: 40%;
+  transform: translate(-50%,-50%);
+  box-shadow: 0 0 20px gray;
+  flex: 1;
+}
+.login_container{
+  display: flex;
+  background: url('../../assets/login_background.jpeg') no-repeat center;
+  height:100vh;
+  background-size:215vh;
+}
+.login_container::after{
+   filter: blur(1px);
+   z-index: -1;
+ }
 .title{
   font-weight: bold;
   font-size: 30px;

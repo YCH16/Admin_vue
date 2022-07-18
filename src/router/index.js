@@ -3,12 +3,13 @@ import HomeView from '../views/HomeView.vue'
 
 const routes = [
   {
-    path: '/home',
+    path: '/AdminHome',
     component: HomeView,
     redirect:"/Welcome",
     children:[
       {path:'/Welcome',component:()=>import('@/components/Pages/Welcome')},
       {path:'/Page3_1',component:()=>import('@/components/Pages/Page3_1')},
+      {path:'/Page3_1/upload',component:()=>import('@/components/Pages/Upload_excel')},
       {path:'/Page3_2',component:()=>import('@/components/Pages/Page3_2')},
       {path:'/Page4_1',component:()=>import('@/components/Pages/Page4_1')},
       {path:'/Page4_2',component:()=>import('@/components/Pages/Page4_2')},
@@ -34,7 +35,7 @@ router.beforeEach((to,from,next)=>{
   // 先獲取token
   const tokenStr=window.sessionStorage.getItem('token');
   if(to.path==='/Login' && !tokenStr){console.log("1");return next();}
-  else if(to.path==='/Login' && tokenStr){console.log("2");return next('/home');}
+  else if(to.path==='/Login' && tokenStr){console.log("2");return next('/AdminHome');}
   if(!tokenStr){console.log("3");return next('/Login');}
   else if(to.path!=='/Login' && tokenStr){next();console.log("4");}
 })

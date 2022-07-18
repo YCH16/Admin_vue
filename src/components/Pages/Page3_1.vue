@@ -53,7 +53,7 @@
 
     <div style="display: flex">
       <el-button  style="width: 100%" @click="deleteRows" >删除选中</el-button>
-      <el-button  style="width: 100%" >批量增加</el-button>
+      <el-button  style="width: 100%" @click="handleAdd">批量增加</el-button>
     </div>
 
 
@@ -261,6 +261,9 @@ export default {
       this.dialogFormVisible=true
       this.form={}
     },
+    handleAdd(){//跳到批量添加學生信息
+      this.$router.push("/Page3_1/upload");
+    },
     modify(row){
       this.dialogFormVisible_modify=true;
       this.form_modify.username=row.username;
@@ -276,6 +279,7 @@ export default {
         console.log(valid)
         if(!valid){this.dialogFormVisible = true;}
         else{
+          console.log(this.form);
           this.axios.post("http://localhost:8081/student/save",this.form).then(res=>{
             this.dialogFormVisible = false;
             console.log(res);//打印返回結果

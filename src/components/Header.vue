@@ -41,7 +41,7 @@ export default {
   },
   methods:{
     userInfo(){
-      this.$router.push('/home');
+      this.$router.push('/AdminHome');
     },
     logout(){
       window.sessionStorage.clear();

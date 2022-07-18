@@ -2,26 +2,25 @@
   <div class="login_container">
     <div class="login_box_left">
       <div style="height: 40px; width:220px;border-bottom: solid;margin-top: 35%;margin-left: 20%;padding-left: 15px;color:#fff">
-      <h2 style="color:#fff;">考试后台管理系统</h2>
+        <h2 style="color:#fff;">考试后台管理系统</h2>
     </div>
     </div>
     <div class="login_box_right">
-      <div class="title">登錄</div>
+      <div class="title">登录</div>
       <div>
         <el-form label-width="0px" class="login_Form" :model="loginFrom" :rules="loginFromRules" ref="loginFromRef">
           <el-form-item prop="username">
-            <el-input prefix-icon="Avatar" style="width: 330px;height:45px" v-model="loginFrom.username" placeholder="請輸入用戶名" type="username"/>
+            <el-input prefix-icon="Avatar" style="width: 330px;height:45px" v-model="loginFrom.username" placeholder="请输入用户名" type="username"/>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input prefix-icon="Lock" style="width: 330px;height:45px" v-model="loginFrom.password" placeholder="請輸入密碼" type="password"/>
+            <el-input prefix-icon="Lock" style="width: 330px;height:45px" v-model="loginFrom.password" placeholder="请输入密码" type="password"/>
           </el-form-item>
           <el-form-item>
-            <el-checkbox label="記住密碼" name="type" />
-            <a style="font-size:14px;padding-left: 195px;color: dodgerblue">忘記密碼</a>
+            <a style="font-size:14px;color: dodgerblue" href="http://localhost:8002/login">切换到学生端登录</a>
           </el-form-item>
         </el-form>
       </div>
-      <el-button type="success" class="login_button" @click="login">登錄</el-button>
+      <el-button type="success" class="login_button" @click="login">登录</el-button>
     </div>
   </div>
 
@@ -67,7 +66,8 @@ export default {
             if(res.data.code==='200'){
               this.$message.success("login success")
               window.sessionStorage.setItem('token',res.data.data.token);
-              this.$router.push('/home');
+              this.$router.push('/AdminHome');
+              //window.open("http://localhost:8082/login","_blank")
             }
             else{
               this.$message.error("用户名或密码错误!!");
@@ -106,10 +106,9 @@ export default {
   flex: 1;
 }
 .login_container{
-  display: flex;
-  background: url('../../assets/login_background.jpeg') no-repeat center;
+  background: url('../../assets/Admin_login_background.jpeg') no-repeat center;
   height:100vh;
-  background-size:215vh;
+
 }
 .login_container::after{
    filter: blur(1px);

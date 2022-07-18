@@ -14,7 +14,7 @@
 
         ><!--:collapse="true"-->
 
-          <el-menu-item index="/home">
+          <el-menu-item index="/AdminHome">
             <el-icon><House /></el-icon>
             <span>主页</span>
           </el-menu-item>
@@ -24,8 +24,8 @@
               <el-icon><User /></el-icon>
               <span>学生信息管理</span>
             </template>
-            <el-menu-item index="Page3_1">学生信息</el-menu-item>
-            <el-menu-item index="Page3_2">学生试卷查看</el-menu-item>
+            <el-menu-item index="../Page3_1">学生信息</el-menu-item>
+            <el-menu-item index="../Page3_2">学生试卷查看</el-menu-item>
           </el-sub-menu>
 
           <el-sub-menu index="Page4">
@@ -34,10 +34,10 @@
               <span>题库管理</span>
             </template>
             <el-menu-item index="../components/Menu/Page4_1">单选题</el-menu-item>
-            <el-menu-item index="Page4_2">多选题</el-menu-item>
-            <el-menu-item index="Page4_3">是非题</el-menu-item>
-            <el-menu-item index="Page4_4">简答题</el-menu-item>
-            <el-menu-item index="Page4_5">已提交试题</el-menu-item>
+            <el-menu-item index="../Page4_2">多选题</el-menu-item>
+            <el-menu-item index="../Page4_3">是非题</el-menu-item>
+            <el-menu-item index="../Page4_4">简答题</el-menu-item>
+            <el-menu-item index="../Page4_5">已提交试题</el-menu-item>
           </el-sub-menu>
 
           <el-sub-menu index="Page5">
@@ -45,7 +45,7 @@
               <el-icon><Document /></el-icon>
               <span>专业信息管理</span>
             </template>
-            <el-menu-item index="Page5_1">专业信息</el-menu-item>
+            <el-menu-item index="../Page5_1">专业信息</el-menu-item>
           </el-sub-menu>
 
         </el-menu>

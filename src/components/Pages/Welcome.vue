@@ -48,7 +48,7 @@ export default {
   methods:{
 
     load(){
-      this.axios.get('http://localhost:8081/admin/get').then(res=>{
+      this.axios.get('http://localhost:8082/admin/get').then(res=>{
         console.log(res.data);
         this.UserInfoForm.username=res.data.username;
         this.UserInfoForm.password=res.data.password;
@@ -58,7 +58,7 @@ export default {
       this.disablepassword=false;
     },
     save(){
-      this.axios.post('http://localhost:8081/admin',this.UserInfoForm).then(res=>{
+      this.axios.post('http://localhost:8082/admin',this.UserInfoForm).then(res=>{
         if(res){
           this.$message.success("修改成功");
         }

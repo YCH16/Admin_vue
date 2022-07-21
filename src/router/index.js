@@ -11,6 +11,7 @@ const routes = [
       {path:'/Page3_1',component:()=>import('@/components/Pages/Page3_1')},
       {path:'/Page3_1/upload',component:()=>import('@/components/Pages/Upload_excel')},
       {path:'/Page3_2',component:()=>import('@/components/Pages/Page3_2')},
+      {path:'/Page3_3',component:()=>import('@/components/Pages/reviewPaper')},
       {path:'/Page4_1',component:()=>import('@/components/Pages/Page4_1')},
       {path:'/Page4_2',component:()=>import('@/components/Pages/Page4_2')},
       {path:'/Page4_3',component:()=>import('@/components/Pages/Page4_3')},

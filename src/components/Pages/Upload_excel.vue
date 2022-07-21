@@ -29,7 +29,6 @@
 
       <template #tip>
         <div class="el-upload__tip">
-          jpg/png files with a size less than 500kb
         </div>
       </template>
     </el-upload>
@@ -100,16 +99,12 @@ export default {
       this.tableData = [];
     },
     submitUpload(){
-      /*this.axios.get('http://localhost:8081/major')
-          .then((res)=>{
-            console.log(res);
-      });*/
       this.tableData.forEach(Stu=>{console.log(Stu);
 
-        this.axios.post("http://localhost:8081/student/save",Stu).then(res=>{
+        this.axios.post("http://localhost:8082/student/save",Stu).then(res=>{
           console.log(res);
-          //if(res.code==='0') {this.$message({type:"error", message:"添加失敗"});}
-          //else {this.$message({type:"success", message:"添加成功"});this.load();}
+          if(res.status===200)this.$message({type:"success", message:"添加成功"});
+          this.$router.push('../Page3_1');
         })
       })
     }

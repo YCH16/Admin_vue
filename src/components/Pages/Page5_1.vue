@@ -98,12 +98,12 @@ export default {
     },
     save(){
       this.dialogFormVisible=false
-      this.axios.post('http://localhost:8081/major',this.form).then(res=>{
+      this.axios.post('http://localhost:8082/major',this.form).then(res=>{
         console.log(res);this.load();
       })
     },
     load(){
-      this.axios.get('http://localhost:8081/major/page',{
+      this.axios.get('http://localhost:8082/major/page',{
         params:{
           pageNum:this.currentPage,
           pageSize:this.pageSize,
@@ -121,7 +121,7 @@ export default {
     deleteRows(){
       console.log(this.multipleselection)
       this.multipleselection.forEach(id=>{console.log(id.mno);
-        this.axios.delete('http://localhost:8081/major/'+id.mno).then(res=>{
+        this.axios.delete('http://localhost:8082/major/'+id.mno).then(res=>{
           if(res.code==='0') {this.$message({type:"error", message:"刪除失敗"});}
           else {this.$message({type:"success", message:"刪除成功"});this.load();}
         })

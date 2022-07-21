@@ -120,7 +120,7 @@
 
 
       <el-form-item label="专业" :label-width="formLabelWidth" prop="coll">
-        <el-select v-model="form.coll" placeholder="Please select a zone" clearable>
+        <el-select v-model="form.coll" placeholder="Please select" clearable>
           <el-option
               v-for="item in allColl"
               :key="item.coll"
@@ -131,10 +131,8 @@
       </el-form-item>
 
         <el-form-item label="班级" :label-width="formLabelWidth" prop="classname">
-        <el-select v-model="form.classname" placeholder="Please select a zone" clearable>
-          <el-option label="软工1班" value="软工1班" />
-          <el-option label="数媒1班" value="数媒1班" />
-        </el-select>
+        <el-input v-model="form.classname"  clearable>
+        </el-input>
       </el-form-item>
 
       <el-form-item label="密码:" :label-width="formLabelWidth" prop="password">
@@ -171,7 +169,7 @@
 
 
       <el-form-item label="专业" :label-width="formLabelWidth">
-        <el-select v-model="form_modify.coll" placeholder="Please select a zone">
+        <el-select v-model="form_modify.coll" placeholder="Please select">
           <el-option
               v-for="item in allColl"
               :key="item.coll"
@@ -182,10 +180,8 @@
       </el-form-item>
 
       <el-form-item label="班级" :label-width="formLabelWidth">
-        <el-select v-model="form_modify.classname" placeholder="Please select a zone">
-          <el-option label="软工1班" value="软工1班" />
-          <el-option label="数媒1班" value="数媒1班" />
-        </el-select>
+        <el-input v-model="form_modify.classname" >
+        </el-input>
       </el-form-item>
 
       <el-form-item label="密码:" :label-width="formLabelWidth">
@@ -280,7 +276,7 @@ export default {
         if(!valid){this.dialogFormVisible = true;}
         else{
           console.log(this.form);
-          this.axios.post("http://localhost:8081/student/save",this.form).then(res=>{
+          this.axios.post("http://localhost:8082/student/save",this.form).then(res=>{
             this.dialogFormVisible = false;
             console.log(res);//打印返回結果
             this.load();
@@ -290,7 +286,7 @@ export default {
     },
     deleteRow(username){//刪除一個
         console.log(username);
-        this.axios.delete('http://localhost:8081/student/'+username).then(res=>{
+        this.axios.delete('http://localhost:8082/student/'+username).then(res=>{
         console.log(res);//打印返回結果
         if(res.code==='0') this.$message({type:"error", message:"刪除失敗"})
         else {this.$message({type:"success", message:"刪除成功"});this.load();}
@@ -299,7 +295,7 @@ export default {
     update(){
       this.dialogFormVisible_modify = false
       console.log(this.form_modify);
-      this.axios.post("http://localhost:8081/student/update",this.form_modify).then(res=>{
+      this.axios.post("http://localhost:8082/student/update",this.form_modify).then(res=>{
         console.log(res);//打印返回結果
         this.load();
       });
@@ -311,30 +307,32 @@ export default {
     deleteRows(){//批量刪除
       console.log(this.multipleselection)
       this.multipleselection.forEach(id=>{console.log(id.username);
-        this.axios.delete('http://localhost:8081/student/'+id.username).then(res=>{
+        this.axios.delete('http://localhost:8082/student/'+id.username).then(res=>{
           if(res.code==='0') {this.$message({type:"error", message:"刪除失敗"});}
           else {this.$message({type:"success", message:"刪除成功"});this.load();}
         })
       })
     },
     load(){
-      this.axios.get('http://localhost:8081/student/page',{
+      this.axios.get('http://localhost:8082/student/page',{
         params:{
           pageNum:this.currentPage,
           pageSize:this.pageSize,
           username:this.searchform.username,
           truename:this.searchform.truename,
           coll:this.searchform.coll,
+          //coll:'计算机科学与技术',
           classname:this.searchform.classname
         }
       }).then((res)=>{
+        console.log(this.searchform.coll);
         console.log(res);
         this.tableData=res.data.records;
         this.total=res.data.total;
       })
     },
     loadAllcoll(){
-      this.axios.get('http://localhost:8081/major')
+      this.axios.get('http://localhost:8082/major')
           .then((res)=>{
             console.log(res);
             for(let i=0;i<res.data.length;i++){

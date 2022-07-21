@@ -48,7 +48,7 @@ export default {
       this.$router.push('/login');
     },
     getUsername(){
-      this.axios.get('http://localhost:8081/admin/get')
+      this.axios.get('http://localhost:8082/admin/get')
           .then(res=>{
             console.log(res);
             this.user_name=res.data.username;

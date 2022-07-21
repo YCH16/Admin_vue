@@ -13,7 +13,7 @@
             <el-input prefix-icon="Avatar" style="width: 330px;height:45px" v-model="loginFrom.username" placeholder="请输入用户名" type="username"/>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input prefix-icon="Lock" style="width: 330px;height:45px" v-model="loginFrom.password" placeholder="请输入密码" type="password"/>
+            <el-input prefix-icon="Lock" style="width: 330px;height:45px" v-model="loginFrom.password" placeholder="请输入密码" type="password" show-password/>
           </el-form-item>
           <el-form-item>
             <a style="font-size:14px;color: dodgerblue" href="http://localhost:8002/login">切换到学生端登录</a>
@@ -50,7 +50,7 @@ export default {
         //驗證密碼是否合法
         password: [
           {required: true, message: '密码不能为空', trigger: 'blur'},
-          {min: 5, max: 16, message: '密码应为5-16位的长度', trigger: 'blur'}
+          //{min: 1, max: 30, message: '密码应为1-30位的长度', trigger: 'blur'}
         ]
       }
     }
@@ -62,7 +62,7 @@ export default {
         //console.log(valid);
         if(!valid)return;
         else{
-          this.axios.post('http://localhost:8081/admin/login',this.loginFrom).then(res=>{
+          this.axios.post('http://localhost:8082/admin/login',this.loginFrom).then(res=>{
             if(res.data.code==='200'){
               this.$message.success("login success")
               window.sessionStorage.setItem('token',res.data.data.token);

@@ -122,28 +122,25 @@ export default {
       this.message_question='题目: '+this.form.content;
       this.message_Answer='参考答案: '+this.form.radio;
     },
-    reget(){
+    reset(){
+      this.form={}
+    },
+    save(){
       request.get("http://localhost:8082/user/single",{
         params:{
           major:this.form.major
         }
       }).then(mno =>{
-        console.log(mno)
         this.form.mno=mno
-
-      })
-    },
-    reset(){
-      this.form={}
-    },
-    save(){
-      this.reget()
-      console.log(this.form)
-      request.post("http://localhost:8082/user",this.form).then(res =>{
-        if(res){
-          this.$message.success("保存成功！")
-        } else{
-          this.$message.error("保存失败！")
+        if(this.form.mno){
+          console.log(this.form);
+          request.post("http://localhost:8082/user",this.form).then(res =>{
+            if(res){console.log(this.form)
+              this.$message.success("保存成功！")
+            } else{
+              this.$message.error("保存失败！")
+            }
+          })
         }
       })
     },

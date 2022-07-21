@@ -120,7 +120,6 @@
   <el-dialog v-model="dialogFormVisible" title="预览">
 
     <p>{{message_major}}</p>
-    <p>{{message_mno}}</p>
     <p>{{message_score}}</p>
     <p>{{message_question}}</p>
     <p>{{message_optiona}}</p>
@@ -224,7 +223,6 @@ export default {
     Browser(){
       this.dialogFormVisible=true;
       this.message_major='专业方向: '+this.form.major;
-      this.message_mno='专业编号: '+this.form.mno;
       this.message_score='分数: '+this.form.score;
       this.message_question='题目: '+this.form.content;
       this.message_optiona='选项A: '+this.form.optiona;
@@ -241,7 +239,6 @@ export default {
       }).then(mno =>{
         this.form.mno=mno
         if(this.form.mno){
-          this.$message.success("获取专业编号成功！")
           console.log(this.form);
           request.post("http://localhost:8082/user",this.form).then(res =>{
             if(res){console.log(this.form)
@@ -250,8 +247,6 @@ export default {
               this.$message.error("保存失败！")
             }
           })
-        } else{
-          this.$message.error("获取专业编号失败！")
         }
       })
       // if(this.form.mno){

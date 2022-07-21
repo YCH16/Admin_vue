@@ -268,12 +268,20 @@ export default {
       this.reget()
       this.form.radio=this.form.radio.toString()
       console.log(this.form)
-      request.post("http://localhost:8082/user",this.form).then(res =>{
-        console.log(res)
-        if(res){
-          this.$message.success("保存成功！")
-        } else{
-          this.$message.error("保存失败！")
+      request.get("http://localhost:8082/user/single",{
+        params:{
+          major:this.form.major
+        }
+      }).then(mno =>{
+        this.form.mno=mno
+        if(this.form.mno){
+          request.post("http://localhost:8082/user",this.form).then(res =>{
+            if(res){console.log(this.form)
+              this.$message.success("保存成功！")
+            } else{
+              this.$message.error("保存失败！")
+            }
+          })
         }
       })
     },
